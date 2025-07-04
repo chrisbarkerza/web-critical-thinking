@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Thinking</title>
+    <!-- 
+        Single-file website for Critical Thinking (www.critical-thinking.co.za)
+        Generated for self-contained deployment on GitHub Pages.
+        Images are linked via relative paths (e.g., "img/logo.png").
+        Place this file in the root of your repository.
+    -->
+    <style>
+        /* Modern CSS Reset */
+        :root {
+            --primary-color: #005a9c; /* A deep blue from your logo */
+            --secondary-color: #00aef0; /* A lighter, vibrant blue */
+            --dark-grey: #333;
+            --medium-grey: #555;
+            --light-grey: #f4f4f4;
+            --white: #ffffff;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap');
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for fixed header */
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--dark-grey);
+            background-color: var(--white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-grey);
+            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none; /* For mobile */
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--dark-grey);
+        }
+        
+        .cta-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            color: var(--white) !important;
+        }
+        .cta-button:hover::after {
+            width: 0 !important; /* Prevent underline on button hover */
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 2rem;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed; /* Parallax effect */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("img/hero-bg.jpg");
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+
+        /* --- General Section Styling --- */
+        .content-section {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-section:nth-child(even) { /* Swapped for visual flow */
+            background-color: var(--light-grey);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--medium-grey);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- Cards and Grid Layout --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .icon-card {
+            background-color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .icon-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .icon-card img {
+            height: 70px;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-card h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* --- Testimonials --- */
+        #testimonials {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        #testimonials .section-header h2 {
+            color: var(--white);
+        }
+        #testimonials .section-header p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .testimonial-card blockquote {
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border: none;
+            padding: 0;
+        }
+
+        .testimonial-card footer {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        /* --- About Us Section --- */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        .about-text { flex: 2; }
+        .about-image { 
+            flex: 1; 
+            max-width: 300px;
+            text-align: center;
+        }
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,90,156,0.3);
+        }
+        
+        /* --- Contact Form --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+        .contact-form button {
+            align-self: flex-start;
+            border: none;
+            cursor: pointer;
+        }
+        .contact-info h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .contact-info p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .contact-info a {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--dark-grey);
+            color: var(--light-grey);
+            text-align: center;
+            padding: 2rem 5%;
+        }
+
+        /* --- Animations --- */
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px; /* height of navbar */
+                left: 0;
+                width: 100%;
+                background-color: white;
+                text-align: center;
+                gap: 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+            }
+            .nav-links a {
+                display: block;
+                padding: 1.5rem;
+                width: 100%;
+            }
+            .nav-links a::after { display: none; }
+            .nav-toggle { display: block; }
+            .navbar .cta-button { display: none; } /* Hide CTA in nav, user will tap menu */
+
+            .about-content, .contact-container {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .about-image { margin-bottom: 2rem; order: -1; } /* Puts image on top on mobile */
+            .contact-form button { align-self: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="#home" class="navbar-logo">
+            <img src="img/logo.png" alt="Critical Thinking Logo">
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#what-is-ct" class="nav-link">What is CT?</a></li>
+                <li><a href="#the-need" class="nav-link">The Need</a></li>
+                <li><a href="#the-course" class="nav-link">The Course</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#contact" class="nav-link cta-button">Book Now</a></li>
+            </ul>
+        </nav>
+        <div class="nav-toggle">&#9776;</div>
+    </header>
+
+    <main>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content hidden">
+                <h1>Unlock Your Potential with Critical Thinking</h1>
+                <p>Equipping individuals and organisations with the essential skills for effective problem-solving, decision-making, and innovation in a complex world.</p>
+                <a href="#the-course" class="cta-button">Explore The Course</a>
+            </div>
+        </section>
+
+        <!-- What is Critical Thinking Section -->
+        <section id="what-is-ct" class="content-section">
+            <div class="section-header hidden">
+                <h2>What is Critical Thinking?</h2>
+                <p>It's more than just thinking; it's a disciplined process of actively and skillfully conceptualizing, applying, analyzing, synthesizing, and evaluating information.</p>
+            </div>
+            <div class="grid-container">
+                <div class="icon-card hidden">
+                    <img src="img/what-is-ct.png" alt="Analysis Icon">
+                    <h3>Analysis & Evaluation</h3>
+                    <p>Learn to deconstruct arguments, identify biases, and assess the credibility of information sources. Move beyond surface-level understanding to deep, insightful analysis.</p>
+                </div>
+                <div class="icon-card hidden">
+                    <img src="img/the-need.png" alt="Problem Solving Icon">
+                    <h3>Problem Solving</h3>
+                    <p>Develop structured approaches to complex problems. Master techniques for defining challenges, generating creative solutions, and implementing effective strategies.</p>
+                </div>
+                <div class="icon-card hidden">
+                    <img src="img/the-course.png" alt="Decision Making Icon">
+                    <h3>Informed Decision Making</h3>
+                    <p>Make better, more rational decisions under pressure. Understand cognitive biases and mental models to improve judgement in both your personal and professional life.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Need Section -->
+        <section id="the-need" class="content-section">
+            <div class="section-header hidden">
+                <h2>Why Is It Essential Today?</h2>
+                <p>In an era of information overload and rapid change, the ability to think clearly and rationally is the most valuable asset you can possess. The World Economic Forum consistently lists it as a top skill for the future.</p>
+            </div>
+            <div class="grid-container">
+                <div class="icon-card hidden">
+                    <h3>For Individuals</h3>
+                    <p>Enhance your career prospects, navigate personal challenges with clarity, and become a more engaged and informed citizen. Critical thinking empowers you to take control of your own learning and growth.</p>
+                </div>
+                <div class="icon-card hidden">
+                    <h3>For Organisations</h3>
+                    <p>Foster a culture of innovation, improve team collaboration, and drive strategic success. Teams that think critically are more agile, efficient, and better equipped to handle market volatility.</p>
+                </div>
+                <div class="icon-card hidden">
+                    <h3>For Society</h3>
+                    <p>Combat misinformation, promote constructive dialogue, and solve complex societal problems. A society of critical thinkers is a healthier, more progressive, and more resilient society.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Course Section -->
+        <section id="the-course" class="content-section">
+            <div class="section-header hidden">
+                <h2>The Critical Thinking Course</h2>
+                <p>A comprehensive, interactive course designed to provide practical tools and frameworks you can apply immediately.</p>
+            </div>
+            <div class="grid-container hidden">
+                <div>
+                    <h3>Course Modules</h3>
+                    <ul>
+                        <li>Introduction to Critical Thinking Models</li>
+                        <li>Identifying and Overcoming Cognitive Biases</li>
+                        <li>Argument Analysis and Deconstruction</li>
+                        <li>Evidence-based Reasoning</li>
+                        <li>Creative and Strategic Problem-Solving Techniques</li>
+                        <li>The Art of Socratic Questioning</li>
+                        <li>Decision-Making Frameworks</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Who Should Attend?</h3>
+                    <p>This course is ideal for:</p>
+                    <ul>
+                        <li>Business Leaders and Managers</li>
+                        <li>Project Teams and Analysts</li>
+                        <li>Students and Academics</li>
+                        <li>Anyone looking to sharpen their thinking skills</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Delivery Format</h3>
+                    <p>We offer flexible formats to suit your needs:</p>
+                    <ul>
+                        <li>In-person workshops for teams</li>
+                        <li>Virtual, instructor-led sessions</li>
+                        <li>Customised corporate training programs</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="content-section">
+            <div class="section-header hidden">
+                <h2>What Our Clients Say</h2>
+            </div>
+            <div class="grid-container">
+                <div class="testimonial-card hidden">
+                    <blockquote>"The most impactful training our leadership team has ever received. It fundamentally changed how we approach strategic planning."</blockquote>
+                    <footer>- CEO, Tech Firm</footer>
+                </div>
+                <div class="testimonial-card hidden">
+                    <blockquote>"Chris has a unique ability to make complex concepts accessible and engaging. I find myself using the frameworks from the course on a daily basis."</blockquote>
+                    <footer>- Project Manager, Financial Services</footer>
+                </div>
+                 <div class="testimonial-card hidden">
+                    <blockquote>"A truly eye-opening experience. I learned more about my own thinking patterns in two days than I have in the last ten years."</blockquote>
+                    <footer>- Marketing Director, Retail</footer>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="content-section">
+            <div class="section-header hidden">
+                <h2>About The Facilitator</h2>
+            </div>
+            <div class="about-content hidden">
+                <div class="about-image">
+                    <img src="img/chris-barker.jpg" alt="A photo of Chris Barker">
+                </div>
+                <div class="about-text">
+                    <h3>Chris Barker</h3>
+                    <p>With over 20 years of experience in corporate strategy, leadership development, and education, Chris Barker is passionate about demystifying critical thinking. He has worked with leading organisations across various sectors, helping them build high-performing teams and cultivate a culture of rigorous, innovative thinking.</p>
+                    <p>His approach is not just theoretical; it's grounded in real-world application, providing participants with practical tools that deliver measurable results. He believes that clear thinking is the cornerstone of all success, and his mission is to make this essential skill accessible to everyone.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="content-section">
+            <div class="section-header hidden">
+                <h2>Book a Course or Get In Touch</h2>
+                <p>Ready to empower your team or yourself? Reach out to discuss your needs, get a quote, or book a course.</p>
+            </div>
+            <div class="contact-container hidden">
+                 <div class="contact-info">
+                    <h3>Contact Details</h3>
+                    <p>We are based in Johannesburg, South Africa, and provide training both locally and internationally.</p>
+                    <p>
+                        <strong>Email:</strong> <a href="mailto:info@critical-thinking.co.za">info@critical-thinking.co.za</a><br>
+                        <strong>Phone:</strong> Please email for contact number.
+                    </p>
+                    <h3>Let's Connect</h3>
+                    <p>Let us know how we can help you foster a culture of effective thinking. We're happy to tailor our content to meet your specific organisational challenges and goals.</p>
+                </div>
+                <!-- IMPORTANT: Replace the action URL with your own Formspree endpoint! -->
+                <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" class="contact-form">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="text" name="company" placeholder="Company (Optional)">
+                    <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="cta-button">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2024 Critical Thinking. All Rights Reserved. | Site designed for self-hosting.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Navigation Toggle ---
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+
+            // --- Active Nav Link Highlighting on Scroll ---
+            const sections = document.querySelectorAll('main section');
+            const navLi = document.querySelectorAll('.nav-links a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 90) { // 90 is a bit more than nav height
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLi.forEach(a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('href').includes(current)) {
+                        a.classList.add('active');
+                    }
+                });
+            });
+
+            // --- Fade-in Animation on Scroll ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            const hiddenElements = document.querySelectorAll('.hidden');
+            hiddenElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
